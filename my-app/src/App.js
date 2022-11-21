@@ -1,10 +1,10 @@
 import "./App.css";
-import YoutubeList from "./components/youtube/YoutubeList";
+import Game from "./components/tictactoe/Game";
 
 function App() {
   return (
     <div>
-      <YoutubeList></YoutubeList>
+      <Game></Game>
     </div>
   );
 }
