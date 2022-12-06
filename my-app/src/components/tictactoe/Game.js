@@ -13,7 +13,7 @@ const gameReducer = (state, action) => {
     case "CLICK":
       const { board, xIsNext } = state;
       const { index, winner } = action.payload;
-      if (winner || board[index]) return state.board;
+      if (winner || board[index]) return state;
       const nextState = JSON.parse(JSON.stringify(state));
       nextState.board[index] = xIsNext ? "X" : "O";
       nextState.xIsNext = !xIsNext;
