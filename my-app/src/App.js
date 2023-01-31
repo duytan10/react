@@ -1,12 +1,20 @@
 import "./App.css";
-import Toggle from "./components/state/Toggle";
-import YoutubeList from "./components/youtube/YoutubeList";
+import Card from "./components/card/Card";
+import CardList from "./components/card/CardList";
+import { GlobalStyles } from "./GlobalStyles";
 
 function App() {
   return (
     <div>
-      {/* <YoutubeList></YoutubeList> */}
-      <Toggle></Toggle>
+      <GlobalStyles></GlobalStyles>
+      <CardList>
+        <Card secondary={true}></Card>
+        <Card></Card>
+        <Card></Card>
+        <Card></Card>
+        <Card></Card>
+        <Card></Card>
+      </CardList>
     </div>
   );
 }
