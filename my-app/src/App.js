@@ -1,20 +1,11 @@
-import "./App.css";
-import Card from "./components/card/Card";
-import CardList from "./components/card/CardList";
-import { GlobalStyles } from "./GlobalStyles";
+import "./App.scss";
+import HackerNews from "./components/news/HackerNews";
+// import Photos from "./components/photo/Photos";
 
 function App() {
   return (
     <div>
-      <GlobalStyles></GlobalStyles>
-      <CardList>
-        <Card secondary={true}></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-      </CardList>
+      <HackerNews></HackerNews>
     </div>
   );
 }
