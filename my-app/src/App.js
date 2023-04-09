@@ -1,11 +1,10 @@
 import "./App.scss";
-import HackerNews from "./components/news/HackerNews";
-// import Photos from "./components/photo/Photos";
+import Dropdown from "./components/Dropdown";
 
 function App() {
   return (
-    <div>
-      <HackerNews></HackerNews>
+    <div className="p-5">
+      <Dropdown></Dropdown>
     </div>
   );
 }
