@@ -1,11 +1,10 @@
 import "./App.scss";
-import TextareaAutoResize from "./components/TextareaAutoResize";
-// import Photos from "./components/photo/Photos";
+import HackerNewsWithHook from "./components/news/HackerNewsWithHook";
 
 function App() {
   return (
-    <div>
-      <TextareaAutoResize />
+    <div className="p-5">
+      <HackerNewsWithHook></HackerNewsWithHook>
     </div>
   );
 }
