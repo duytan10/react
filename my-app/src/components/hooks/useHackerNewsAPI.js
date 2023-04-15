@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import _ from "lodash";
 
-export default function useHackerNewsAPI() {
-  const [hits, setHits] = useState([]);
+export default function useHackerNewsAPI(initialUrl, initialData) {
+  const [data, setData] = useState(initialData);
   const [query, setQuery] = useState();
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const handleFetchData = useRef({});
-  const [url, setUrl] = useState("https://hn.algolia.com/api/v1/search?query=''");
+  const [url, setUrl] = useState(initialUrl);
 
   handleFetchData.current = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://hn.algolia.com/api/v1/search?query=${query}`);
-      setHits(response.data?.hits || []);
+      const response = await axios.get(
+        `https://hn.algolia.com/api/v1/search?query=${query}`
+      );
+      setData(response.data || []);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -22,18 +23,16 @@ export default function useHackerNewsAPI() {
     }
   };
 
-  const handleUpdateQuery = _.debounce((e) => setQuery(e.target.value), 500);
-
   useEffect(() => {
     handleFetchData.current();
   }, [url]);
 
   return {
-    hits,
     query,
     setQuery,
+    setUrl,
     loading,
     errorMessage,
-    setUrl
-  }
+    data,
+  };
 }
