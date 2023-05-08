@@ -6,13 +6,13 @@ const Dropdown = () => {
   return (
     <div className="relative w-full max-w-[400px]" ref={dropdownRef}>
       <div
-        className="p-5 border border-gray-200 rounded-lg w-full cursor-pointer"
+        className="w-full p-5 border border-gray-200 rounded-lg cursor-pointer"
         onClick={() => setShow(!show)}
       >
         Selected
       </div>
       {show && (
-        <div className="p-5 border border-gray-200 rounded-lg absolute bg-white top-full left-0 w-full">
+        <div className="absolute left-0 w-full p-5 bg-white border border-gray-200 rounded-lg top-full">
           <div className="p-5 cursor-pointer">Javascript</div>
           <div className="p-5 cursor-pointer">Reactjs</div>
           <div className="p-5 cursor-pointer">Vuejs</div>

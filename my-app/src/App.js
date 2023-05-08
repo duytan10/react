@@ -1,10 +1,10 @@
 import "./App.scss";
-import SignUpFormHook from "./components/form/SignUpFormHook";
+import Modal from "./components/modal/Modal";
 
 function App() {
   return (
     <div>
-      <SignUpFormHook></SignUpFormHook>
+      <Modal open={true}></Modal>
     </div>
   );
 }
