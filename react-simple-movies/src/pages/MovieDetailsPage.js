@@ -2,6 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { fetcher } from "../config";
+import { Swiper, SwiperSlide } from "swiper/react";
+import MovieCard from "../components/movie/MovieCard";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
@@ -47,6 +49,7 @@ const MovieDetailsPage = () => {
       </p>
       <MovieCredits></MovieCredits>
       <MovieVideos></MovieVideos>
+      <MovieSimilar></MovieSimilar>
     </div>
   );
 };
@@ -85,7 +88,60 @@ function MovieVideos() {
     `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=88166d730835a312ecede71f7a883378`,
     fetcher
   );
-  console.log("file: MovieDetailsPage.js:84 ~ data:", data);
+  if (!data) return null;
+  const { results } = data;
+  if (!results || results.length <= 0) return null;
+  return (
+    <div className="py-10">
+      <div className="flex flex-col gap-10">
+        {results.slice(0, 2).map((item) => (
+          <div key={item.id}>
+            <h3 className="mb-5 text-xl font-medium p-3 bg-secondary inline-block">
+              {item.name}
+            </h3>
+            <div className="w-full aspect-video">
+              <iframe
+                width="853"
+                height="480"
+                src={`https://www.youtube.com/embed/${item.key}`}
+                title="Charlie Puth - Dangerously [Official Video]"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full object-fill"
+              ></iframe>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MovieSimilar() {
+  const { movieId } = useParams();
+  const { data, error } = useSWR(
+    `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=88166d730835a312ecede71f7a883378`,
+    fetcher
+  );
+  if (!data) return null;
+  const { results } = data;
+  if (!results || results.length <= 0) return null;
+  return (
+    <div className="py-10">
+      <h2 className="text-3xl font-medium mb-10">Similar movies</h2>
+      <div className="movie-list">
+        <Swiper spaceBetween={40} grabCursor={"true"} slidesPerView={"auto"}>
+          {results.length > 0 &&
+            results.map((movie) => (
+              <SwiperSlide key={movie.id}>
+                <MovieCard item={movie}></MovieCard>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
+    </div>
+  );
 }
 
 export default MovieDetailsPage;
