@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { fetcher } from "../config";
 import MovieCard from "../components/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
+import ReactPaginate from "react-paginate";
 
 const MoviePage = () => {
   const [keyWord, setKeyWord] = useState("");
@@ -12,8 +13,12 @@ const MoviePage = () => {
   const [page, setPage] = useState(1);
   const keyWordDebounce = useDebounce(keyWord, 500);
   const { data, isLoading } = useSWR(url, fetcher);
-  const { results: movies, total_pages } = data || [];
-  console.log("file: MoviePage.js:16 ~ data:", data);
+  const movies = data?.results || [];
+
+  // Pagination
+  const handlePageClick = (event) => {
+    setPage(event.selected + 1);
+  };
 
   const handleKeyWordChange = (e) => {
     setKeyWord(e.target.value);
@@ -69,54 +74,16 @@ const MoviePage = () => {
             <MovieCard key={item.id} item={item}></MovieCard>
           ))}
       </div>
-      <div className="flex items-center justify-center mt-10 gap-x-5">
-        <span
-          className="cursor-pointer hover:text-primary"
-          onClick={() => setPage(page - 1)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </span>
-        {new Array(total_pages).fill(0).map((item, index) => (
-          <span
-            className="cursor-pointer hover:text-primary"
-            onClick={() => setPage(index + 1)}
-          >
-            {index + 1}
-          </span>
-        ))}
-        <span
-          className="cursor-pointer hover:text-primary"
-          onClick={() => setPage(page + 1)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </span>
-      </div>
+      <ReactPaginate
+        className="pagination mt-10"
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={data?.total_pages}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+      />
     </div>
   );
 };
