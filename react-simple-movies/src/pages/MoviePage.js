@@ -4,8 +4,6 @@ import { fetcher } from "../config";
 import MovieCard from "../components/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
 
-const pageCount = 5;
-
 const MoviePage = () => {
   const [keyWord, setKeyWord] = useState("");
   const [url, setUrl] = useState(
@@ -14,7 +12,8 @@ const MoviePage = () => {
   const [page, setPage] = useState(1);
   const keyWordDebounce = useDebounce(keyWord, 500);
   const { data, isLoading } = useSWR(url, fetcher);
-  const movies = data?.results || [];
+  const { results: movies, total_pages } = data || [];
+  console.log("file: MoviePage.js:16 ~ data:", data);
 
   const handleKeyWordChange = (e) => {
     setKeyWord(e.target.value);
@@ -61,7 +60,7 @@ const MoviePage = () => {
         </button>
       </div>
       {isLoading && (
-        <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin mx-auto"></div>
+        <div className="w-10 h-10 mx-auto border-4 rounded-full border-primary border-t-transparent animate-spin"></div>
       )}
       <div className="grid grid-cols-4 gap-10">
         {!isLoading &&
@@ -70,7 +69,7 @@ const MoviePage = () => {
             <MovieCard key={item.id} item={item}></MovieCard>
           ))}
       </div>
-      <div className="mt-10 flex items-center justify-center gap-x-5">
+      <div className="flex items-center justify-center mt-10 gap-x-5">
         <span
           className="cursor-pointer hover:text-primary"
           onClick={() => setPage(page - 1)}
@@ -90,7 +89,7 @@ const MoviePage = () => {
             />
           </svg>
         </span>
-        {new Array(pageCount).fill(0).map((item, index) => (
+        {new Array(total_pages).fill(0).map((item, index) => (
           <span
             className="cursor-pointer hover:text-primary"
             onClick={() => setPage(index + 1)}
