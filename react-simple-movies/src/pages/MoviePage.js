@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { fetcher } from "../config";
+import { fetcher, tmdbAPI } from "../config";
 import MovieCard from "../components/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
 import ReactPaginate from "react-paginate";
 
 const MoviePage = () => {
   const [keyWord, setKeyWord] = useState("");
-  const [url, setUrl] = useState(
-    "https://api.themoviedb.org/3/movie/popular?api_key=88166d730835a312ecede71f7a883378&page=1"
-  );
+  const [url, setUrl] = useState(tmdbAPI.getMovieList("popular"));
   const [page, setPage] = useState(1);
   const keyWordDebounce = useDebounce(keyWord, 500);
   const { data, isLoading } = useSWR(url, fetcher);
@@ -26,13 +24,9 @@ const MoviePage = () => {
 
   useEffect(() => {
     if (keyWordDebounce) {
-      setUrl(
-        `https://api.themoviedb.org/3/search/movie?api_key=88166d730835a312ecede71f7a883378&query=${keyWordDebounce}&page=${page}`
-      );
+      setUrl(tmdbAPI.getMovieSearch(keyWordDebounce, page));
     } else {
-      setUrl(
-        `https://api.themoviedb.org/3/movie/popular?api_key=88166d730835a312ecede71f7a883378&page=${page}`
-      );
+      setUrl(tmdbAPI.getMovieList("popular", page));
     }
   }, [keyWordDebounce, page]);
 
@@ -75,7 +69,7 @@ const MoviePage = () => {
           ))}
       </div>
       <ReactPaginate
-        className="pagination mt-10"
+        className="mt-10 pagination"
         breakLabel="..."
         nextLabel="next >"
         onPageChange={handlePageClick}

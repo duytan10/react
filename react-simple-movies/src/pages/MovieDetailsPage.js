@@ -1,16 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import { fetcher } from "../config";
+import { fetcher, tmdbAPI } from "../config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "../components/movie/MovieCard";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const { data, error } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=88166d730835a312ecede71f7a883378`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieDetails(movieId), fetcher);
   if (!data) return null;
   const { backdrop_path, poster_path, title, genres, overview } = data;
   return (
@@ -20,13 +17,13 @@ const MovieDetailsPage = () => {
         <div
           className="w-full h-full bg-no-repeat bg-cover"
           style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop_path})`,
+            backgroundImage: `url(${tmdbAPI.imageOriginal(backdrop_path)})`,
           }}
         ></div>
       </div>
       <div className="w-full h-[400px] max-w-[800px] mx-auto -mt-[200px] relative z-10 pb-10">
         <img
-          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+          src={tmdbAPI.imageOriginal(poster_path)}
           className="object-cover w-full h-full rounded-xl"
           alt=""
         />
@@ -56,10 +53,7 @@ const MovieDetailsPage = () => {
 
 function MovieCredits() {
   const { movieId } = useParams();
-  const { data, error } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=88166d730835a312ecede71f7a883378`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieMeta(movieId, "credits"), fetcher);
   if (!data) return null;
   const { cast } = data;
   if (!cast || cast.length <= 0) return null;
@@ -70,7 +64,7 @@ function MovieCredits() {
         {cast.slice(0, 4).map((item) => (
           <div className="cast-item" key={item.id}>
             <img
-              src={`https://image.tmdb.org/t/p/original/${item.profile_path}`}
+              src={tmdbAPI.imageOriginal(item.profile_path)}
               className="w-full h-[350px] object-cover rounded-lg mb-3"
               alt=""
             />
@@ -84,10 +78,7 @@ function MovieCredits() {
 
 function MovieVideos() {
   const { movieId } = useParams();
-  const { data, error } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=88166d730835a312ecede71f7a883378`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieMeta(movieId, "videos"), fetcher);
   if (!data) return null;
   const { results } = data;
   if (!results || results.length <= 0) return null;
@@ -96,7 +87,7 @@ function MovieVideos() {
       <div className="flex flex-col gap-10">
         {results.slice(0, 2).map((item) => (
           <div key={item.id}>
-            <h3 className="mb-5 text-xl font-medium p-3 bg-secondary inline-block">
+            <h3 className="inline-block p-3 mb-5 text-xl font-medium bg-secondary">
               {item.name}
             </h3>
             <div className="w-full aspect-video">
@@ -108,7 +99,7 @@ function MovieVideos() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                className="w-full h-full object-fill"
+                className="object-fill w-full h-full"
               ></iframe>
             </div>
           </div>
@@ -120,16 +111,13 @@ function MovieVideos() {
 
 function MovieSimilar() {
   const { movieId } = useParams();
-  const { data, error } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=88166d730835a312ecede71f7a883378`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieMeta(movieId, "similar"), fetcher);
   if (!data) return null;
   const { results } = data;
   if (!results || results.length <= 0) return null;
   return (
     <div className="py-10">
-      <h2 className="text-3xl font-medium mb-10">Similar movies</h2>
+      <h2 className="mb-10 text-3xl font-medium">Similar movies</h2>
       <div className="movie-list">
         <Swiper spaceBetween={40} grabCursor={"true"} slidesPerView={"auto"}>
           {results.length > 0 &&
