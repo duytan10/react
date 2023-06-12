@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { fetcher, tmdbAPI } from "../config";
 import { Swiper, SwiperSlide } from "swiper/react";
-import MovieCard from "../components/movie/MovieCard";
+import MovieCard from "components/movie/MovieCard";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
@@ -44,12 +44,90 @@ const MovieDetailsPage = () => {
       <p className="text-sm text-center leading-relaxed max-w-[600px] mx-auto mb-10">
         {overview}
       </p>
-      <MovieCredits></MovieCredits>
-      <MovieVideos></MovieVideos>
-      <MovieSimilar></MovieSimilar>
+      <MovieMeta type="credits"></MovieMeta>
+      <MovieMeta></MovieMeta>
+      <MovieMeta type="similar"></MovieMeta>
     </div>
   );
 };
+
+function MovieMeta({ type = "videos" }) {
+  const { movieId } = useParams();
+  const { data } = useSWR(tmdbAPI.getMovieMeta(movieId, "credits"), fetcher);
+  if (!data) return null;
+
+  if (type === "credits") {
+    const { cast } = data;
+    if (!cast || cast.length <= 0) return null;
+    return (
+      <div className="py-10">
+        <h2 className="mb-10 text-3xl text-center">Casts</h2>
+        <div className="grid grid-cols-4 gap-5">
+          {cast.slice(0, 4).map((item) => (
+            <div className="cast-item" key={item.id}>
+              <img
+                src={tmdbAPI.imageOriginal(item.profile_path)}
+                className="w-full h-[350px] object-cover rounded-lg mb-3"
+                alt=""
+              />
+              <h3 className="text-xl font-medium">{item.name}</h3>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    const { results } = data;
+    if (!results || results.length <= 0) return null;
+    if (type === "videos")
+      return (
+        <div className="py-10">
+          <div className="flex flex-col gap-10">
+            {results.slice(0, 2).map((item) => (
+              <div key={item.id}>
+                <h3 className="inline-block p-3 mb-5 text-xl font-medium bg-secondary">
+                  {item.name}
+                </h3>
+                <div className="w-full aspect-video">
+                  <iframe
+                    width="853"
+                    height="480"
+                    src={`https://www.youtube.com/embed/${item.key}`}
+                    title="Charlie Puth - Dangerously [Official Video]"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="object-fill w-full h-full"
+                  ></iframe>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+
+    if (type === "similar")
+      return (
+        <div className="py-10">
+          <h2 className="mb-10 text-3xl font-medium">Similar movies</h2>
+          <div className="movie-list">
+            <Swiper
+              spaceBetween={40}
+              grabCursor={"true"}
+              slidesPerView={"auto"}
+            >
+              {results.length > 0 &&
+                results.map((movie) => (
+                  <SwiperSlide key={movie.id}>
+                    <MovieCard item={movie}></MovieCard>
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          </div>
+        </div>
+      );
+  }
+}
 
 function MovieCredits() {
   const { movieId } = useParams();

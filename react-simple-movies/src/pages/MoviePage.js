@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher, tmdbAPI } from "../config";
-import MovieCard from "../components/movie/MovieCard";
-import useDebounce from "../hooks/useDebounce";
+import MovieCard from "components/movie/MovieCard";
+import useDebounce from "hooks/useDebounce";
 import ReactPaginate from "react-paginate";
 
 const MoviePage = () => {

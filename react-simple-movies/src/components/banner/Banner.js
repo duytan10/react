@@ -2,15 +2,12 @@ import React from "react";
 import useSWR from "swr";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { fetcher } from "../../config";
-import Button from "../button/Button";
+import { fetcher, tmdbAPI } from "../../config";
+import Button from "components/button/Button";
 import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=88166d730835a312ecede71f7a883378`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieList("upcoming"), fetcher);
   const { data: genres } = useSWR(
     `https://api.themoviedb.org/3/genre/movie/list?api_key=88166d730835a312ecede71f7a883378`,
     fetcher
@@ -39,7 +36,7 @@ function BannerItem({ item, genres }) {
     <div className="relative w-full h-full rounded-lg">
       <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg overlay"></div>
       <img
-        src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+        src={tmdbAPI.imageOriginal(poster_path)}
         alt=""
         className="object-cover w-full h-full rounded-lg"
       />
