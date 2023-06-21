@@ -6,6 +6,7 @@ import Banner from "./components/banner/Banner";
 // import MoviePage from "./pages/MoviePage";
 // import MovieDetailsPage from "./pages/MovieDetailsPage";
 import { Suspense, lazy } from "react";
+import MoviePageV2 from "pages/MoviePageV2";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const MoviePage = lazy(() => import("./pages/MoviePage"));
@@ -26,7 +27,7 @@ function App() {
                 </>
               }
             ></Route>
-            <Route path="/movies" element={<MoviePage></MoviePage>}></Route>
+            <Route path="/movies" element={<MoviePageV2></MoviePageV2>}></Route>
             <Route
               path="/movie/:movieId"
               element={<MovieDetailsPage></MovieDetailsPage>}
