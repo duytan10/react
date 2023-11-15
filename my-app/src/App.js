@@ -15,7 +15,7 @@ function App() {
         <div>
             <Switch on={on} onClick={toggle}></Switch>
             <hr />
-            <button aria-label="custom-button">{on ? "on" : "off"}</button>
+            <button aria-label="custom-button" onClick={toggle}>{on ? "on" : "off"}</button>
         </div>
     );
 }
