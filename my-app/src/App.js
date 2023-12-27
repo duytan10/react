@@ -1,11 +1,24 @@
 import { useState } from "react";
 import "./App.scss";
-import Counter from "./components/advanced-react/control-props/Counter";
+import Counter from "./components/advanced-react/state-reducer/Counter";
+import useCounter from "./components/advanced-react/state-reducer/useCounter";
 
 function App() {
+    const userReducer = (state, action) => {
+        switch (action.type) {
+            case "decrement":
+                return {
+                    count: state.count - 5,
+                };
+
+            default:
+                return useCounter.reducer(state, action);
+        }
+    };
+    const { count, handleDecrement, handleIncrement } = useCounter({ initial: 0 }, userReducer);
     return (
         <div>
-            <Counter></Counter>
+            <Counter count={count} handleDecrement={handleDecrement} handleIncrement={handleIncrement}></Counter>
         </div>
     );
 }
