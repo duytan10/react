@@ -1,21 +1,11 @@
 import { useState } from "react";
 import "./App.scss";
-import Switch from "./components/switch/Switch";
-
-function useToggle() {
-    const [on, setOn] = useState(false);
-    const toggle = () => setOn(!on);
-
-    return { on, toggle };
-}
+import Counter from "./components/advanced-react/control-props/Counter";
 
 function App() {
-    const { on, toggle } = useToggle();
     return (
         <div>
-            <Switch on={on} onClick={toggle}></Switch>
-            <hr />
-            <button aria-label="custom-button" onClick={toggle}>{on ? "on" : "off"}</button>
+            <Counter></Counter>
         </div>
     );
 }
