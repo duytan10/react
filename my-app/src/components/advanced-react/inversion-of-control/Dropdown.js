@@ -27,7 +27,7 @@ const Dropdown = ({ options, placeholder = "Please select an option", inputPlace
                     {options &&
                         options.length > 0 &&
                         options.map((option) => (
-                            <div className="option-item p-4 cursor-pointer" key={option.title} onClick={option.onClick}>
+                            <div className="option-item p-4 cursor-pointer flex items-center justify-between" key={option.title} onClick={option.onClick}>
                                 {option.title}
                             </div>
                         ))}

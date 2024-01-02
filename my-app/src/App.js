@@ -1,14 +1,12 @@
+import { useState } from "react";
 import "./App.scss";
-import Dropdown from "./components/advanced-react/inversion-of-control/Dropdown";
-const options = [
-    { title: "Frontend Developer", onClick: () => {} },
-    { title: "Backend Developer", onClick: () => {} },
-    { title: "Fullstack Developer", onClick: () => {} },
-];
+import Count from "./components/advanced-react/performance/Count";
 function App() {
+    const [filters, setFilters] = useState("");
     return (
         <div>
-            <Dropdown options={options} placeholder="Please select your job" inputPlaceHolder={'Search your jobs ...'}></Dropdown>
+            <input type="text" className="p-3 rounded border border-gray-300" onChange={(e) => setFilters(e.target.value)} />
+            <Count></Count>
         </div>
     );
 }
