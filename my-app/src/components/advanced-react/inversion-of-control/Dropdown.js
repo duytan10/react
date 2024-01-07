@@ -18,7 +18,29 @@ const Dropdown = ({
       >
         {placeholder}
       </div>
-      {show && <div className="options border border-gray-300 rounded"></div>}
+      {show && (
+        <div className="options border border-gray-300 rounded">
+          <div className="p-2">
+            <input
+              type="text"
+              placeholder={inputPlaceHolder}
+              className="p-3 outline-none w-full border border-gray-200 rounded"
+              onChange={onChange}
+            />
+          </div>
+          {options &&
+            options.length > 0 &&
+            options.map((option) => (
+              <div
+                className="option-item p-4 cursor-pointer flex items-center justify-between"
+                key={option.title}
+                onClick={option.onClick}
+              >
+                {option.title}
+              </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 };
