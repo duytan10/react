@@ -1,16 +1,16 @@
 import "./App.scss";
-import Dropdown from "./components/advanced-react/inversion-of-control/Dropdown";
+import { Dropdown } from "./components/advanced-react/inversion-of-control";
 const options = [
-    { title: "Frontend Developer", onClick: () => {} },
-    { title: "Backend Developer", onClick: () => {} },
-    { title: "Fullstack Developer", onClick: () => {} },
+  { title: "Frontend Developer", onClick: () => {} },
+  { title: "Backend Developer", onClick: () => {} },
+  { title: "Fullstack Developer", onClick: () => {} },
 ];
 function App() {
-    return (
-        <div>
-            <Dropdown options={options} placeholder="Please select your job" inputPlaceHolder={'Search your jobs ...'}></Dropdown>
-        </div>
-    );
+  return (
+    <div>
+      <Dropdown placeholder="Please select your job"></Dropdown>
+    </div>
+  );
 }
 
 export default App;
