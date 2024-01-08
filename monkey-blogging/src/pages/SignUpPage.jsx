@@ -33,7 +33,6 @@ const SignUpPage = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -41,11 +40,7 @@ const SignUpPage = () => {
 
   const handleSignUp = async (values) => {
     if (!isValid) return;
-    const user = await createUserWithEmailAndPassword(
-      auth,
-      values.email,
-      values.password
-    );
+    await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, {
       displayName: values.fullName,
     });

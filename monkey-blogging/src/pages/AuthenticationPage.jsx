@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const AuthenticationPageStyles = styled.div`
@@ -28,11 +29,14 @@ const AuthenticationPageStyles = styled.div`
   }
 `;
 
+// eslint-disable-next-line react/prop-types
 const AuthenticationPage = ({ children }) => {
   return (
     <AuthenticationPageStyles>
       <div className="container">
-        <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+        <NavLink to="/">
+          <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
+        </NavLink>
         <h1 className="heading">Monkey Blogging</h1>
         {children}
       </div>

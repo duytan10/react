@@ -1,13 +1,16 @@
-import React from "react";
 import styled from "styled-components";
+import { Button } from "../button";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/auth-context";
 
 const menuLink = [
-  { url: "", title: "Home" },
-  { url: "", title: "Blog" },
-  { url: "/#", title: "Contact" },
+  { url: "/", title: "Home" },
+  { url: "/blog", title: "Blog" },
+  { url: "/contact", title: "Contact" },
 ];
 
 const HeaderStyles = styled.header`
+  padding: 40px 0;
   .header-main {
     display: flex;
     align-items: center;
@@ -23,47 +26,66 @@ const HeaderStyles = styled.header`
     gap: 20px;
     margin-left: 40px;
     list-style: none;
+    font-weight: 500;
   }
 
-  search {
+  .search {
     margin-left: auto;
     padding: 10px;
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
     border-radius: 8px;
     width: 100%;
     max-width: 320px;
     display: flex;
     align-items: center;
+    position: relative;
+    font-weight: 500;
+    margin-right: 20px;
   }
-  
+
   search-input {
     flex: 1;
+    padding-right: 45px;
   }
 
   .search-icon {
-
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 25px;
   }
 `;
 
+function getLastName(name) {
+  if (!name) return "";
+  const length = name.split(" ").length;
+  return name.split(" ")[length - 1];
+}
 const Header = () => {
+  const { userInfo } = useAuth();
+  console.log("file: Header.jsx:63 ~ userInfo:", userInfo);
   return (
     <HeaderStyles>
       <div className="container">
         <div className="header-main">
-          <a href="/">
+          <NavLink to="/">
             <img srcSet="/logo.png 2x" alt="monkey-blogging" className="logo" />
-          </a>
+          </NavLink>
           <ul className="menu">
             {menuLink.map((item) => (
               <li className="menu-item" key={item.title}>
-                <a href={item.url} className="menu-link">
+                <NavLink to={item.url} className="menu-link">
                   {item.title}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
           <div className="search">
-            <input type="text" className="search-input" />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search post ..."
+            />
             <span className="search-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,6 +117,16 @@ const Header = () => {
               </svg>
             </span>
           </div>
+          {!userInfo ? (
+            <Button className="header-button" height="46px" to="/sign-up">
+              Sign Up
+            </Button>
+          ) : (
+            <div className="header-auth">
+              <strong>Welcomback, </strong>
+              <strong>{getLastName(userInfo?.displayName)}</strong>
+            </div>
+          )}
         </div>
       </div>
     </HeaderStyles>
