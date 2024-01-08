@@ -15,10 +15,7 @@ import { auth } from "../firebase/firebase-config";
 import { IconEyeClose, IconEyeOpen } from "../components/icon";
 
 const schema = yup.object({
-  email: yup
-    .string()
-    .email("Please enter valid email address")
-    .required("Please enter your email"),
+  email: yup.string().email("Please enter valid email address").required("Please enter your email"),
   password: yup
     .string()
     .min(8, "Your password must be at least 8 characters or greater")
@@ -78,19 +75,14 @@ const SignInPage = () => {
             control={control}
           >
             {!togglePassword ? (
-              <IconEyeClose
-                onClick={() => setTogglePassword(true)}
-              ></IconEyeClose>
+              <IconEyeClose onClick={() => setTogglePassword(true)}></IconEyeClose>
             ) : (
-              <IconEyeOpen
-                onClick={() => setTogglePassword(false)}
-              ></IconEyeOpen>
+              <IconEyeOpen onClick={() => setTogglePassword(false)}></IconEyeOpen>
             )}
           </Input>
         </Field>
         <div className="have-account">
-          You have not had an account?{" "}
-          <NavLink to={"/sign-up"}>Register an account</NavLink>{" "}
+          You have not had an account? <NavLink to={"/sign-up"}>Register an account</NavLink>{" "}
         </div>
         <Button
           type="submit"
