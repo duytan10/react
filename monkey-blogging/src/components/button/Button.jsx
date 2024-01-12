@@ -9,7 +9,7 @@ const ButtonStyles = styled.button`
   line-height: 1;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   height: ${(props) => props.height || "66px"};
   display: flex;
   justify-content: center;
