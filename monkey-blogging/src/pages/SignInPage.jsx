@@ -13,6 +13,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
 import { IconEyeClose, IconEyeOpen } from "../components/icon";
+import InputPasswordToggle from "../components/input/InputPasswordToggle";
 
 const schema = yup.object({
   email: yup.string().email("Please enter valid email address").required("Please enter your email"),
@@ -68,18 +69,7 @@ const SignInPage = () => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <Input
-            name="password"
-            type={togglePassword ? "text" : "password"}
-            placeholder="Enter your password"
-            control={control}
-          >
-            {!togglePassword ? (
-              <IconEyeClose onClick={() => setTogglePassword(true)}></IconEyeClose>
-            ) : (
-              <IconEyeOpen onClick={() => setTogglePassword(false)}></IconEyeOpen>
-            )}
-          </Input>
+          <InputPasswordToggle control={control} />
         </Field>
         <div className="have-account">
           You have not had an account? <NavLink to={"/sign-up"}>Register an account</NavLink>{" "}

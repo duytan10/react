@@ -13,13 +13,11 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase-config";
 import AuthenticationPage from "./AuthenticationPage";
 import { NavLink } from "react-router-dom";
+import InputPasswordToggle from "../components/input/InputPasswordToggle";
 
 const schema = yup.object({
   fullName: yup.string().required("Please enter your full name"),
-  email: yup
-    .string()
-    .email("Please enter valid email address")
-    .required("Please enter your email"),
+  email: yup.string().email("Please enter valid email address").required("Please enter your email"),
   password: yup
     .string()
     .min(8, "Your password must be at least 8 characters or greater")
@@ -67,40 +65,15 @@ const SignUpPage = () => {
       <form onSubmit={handleSubmit(handleSignUp)} className="form">
         <Field>
           <Label htmlFor="fullName">Full name</Label>
-          <Input
-            name="fullName"
-            type="text"
-            placeholder="Enter your full name"
-            control={control}
-          />
+          <Input name="fullName" type="text" placeholder="Enter your full name" control={control} />
         </Field>
         <Field>
           <Label htmlFor="email">Email address</Label>
-          <Input
-            name="email"
-            type="email"
-            placeholder="Enter your email"
-            control={control}
-          />
+          <Input name="email" type="email" placeholder="Enter your email" control={control} />
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <Input
-            name="password"
-            type={togglePassword ? "text" : "password"}
-            placeholder="Enter your password"
-            control={control}
-          >
-            {!togglePassword ? (
-              <IconEyeClose
-                onClick={() => setTogglePassword(true)}
-              ></IconEyeClose>
-            ) : (
-              <IconEyeOpen
-                onClick={() => setTogglePassword(false)}
-              ></IconEyeOpen>
-            )}
-          </Input>
+          <InputPasswordToggle control={control}></InputPasswordToggle>
         </Field>
         <div className="have-account">
           You already have an account? <NavLink to={"/sign-in"}>Login</NavLink>{" "}
