@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { NavLink } from "react-router-dom";
 
 const PostCategoryStyles = styled.div`
   display: inline-block;
@@ -27,10 +28,10 @@ const PostCategoryStyles = styled.div`
 `;
 
 // eslint-disable-next-line react/prop-types
-const PostCategory = ({ children, type = "primary", className = "" }) => {
+const PostCategory = ({ children, type = "primary", className = "", to = "/" }) => {
   return (
     <PostCategoryStyles type={type} className={`post-category ${className}`}>
-      {children}
+      <NavLink to={to}>{children}</NavLink>
     </PostCategoryStyles>
   );
 };

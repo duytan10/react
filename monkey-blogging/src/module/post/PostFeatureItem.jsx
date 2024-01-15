@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
+import PostMeta from "./PostMeta";
+import PostImage from "./PostImage";
 
 const PostFeatureItemStyles = styled.div`
   width: 100%;
@@ -10,13 +13,19 @@ const PostFeatureItemStyles = styled.div`
     &-image {
       width: 100%;
       height: 100%;
+      object-fit: cover;
       border-radius: 16px;
     }
     &-overlay {
       position: absolute;
       inset: 0;
       border-radius: 16px;
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: linear-gradient(
+        179.77deg,
+        #6b6b6b 36.45%,
+        rgba(163, 163, 163, 0.622265) 63.98%,
+        rgba(255, 255, 255, 0) 99.8%
+      );
       mix-blend-mode: multiply;
       opacity: 0.6;
     }
@@ -50,24 +59,19 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = () => {
   return (
     <PostFeatureItemStyles>
-      <img
-        src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      <PostImage
+        url="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt="unsplash"
-      />
+      ></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
           <PostCategory>Kiến thức</PostCategory>
-          <div className="post-info">
-            <span className="post-time">Mar 23</span>
-            <span className="post-dot"></span>
-            <span className="post-author">Andiez Le</span>
-          </div>
+          <PostMeta></PostMeta>
         </div>
-        <h3 className="post-title">
-          Work Space cho người mới đi làm hiệu quả đến bất ngờ mà bạn không
-          tưởng tượng được đâu
-        </h3>
+        <PostTitle size="big">
+          Work Space cho người mới đi làm hiệu quả đến bất ngờ mà bạn không tưởng tượng được đâu
+        </PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

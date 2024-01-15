@@ -123,7 +123,7 @@ const Header = () => {
             </Button>
           ) : (
             <div className="header-auth">
-              <strong>Welcomback, </strong>
+              <strong>Welcome back, </strong>
               <strong>{getLastName(userInfo?.displayName)}</strong>
             </div>
           )}
