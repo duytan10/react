@@ -7,12 +7,11 @@ import AuthenticationPage from "./AuthenticationPage";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../contexts/auth-context";
 import { NavLink, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
-import { IconEyeClose, IconEyeOpen } from "../components/icon";
 import InputPasswordToggle from "../components/input/InputPasswordToggle";
 
 const schema = yup.object({
@@ -29,8 +28,6 @@ const SignInPage = () => {
     control,
     formState: { isSubmitting, errors, isValid },
   } = useForm({ mode: "onChange", resolver: yupResolver(schema) });
-
-  const [togglePassword, setTogglePassword] = useState(false);
 
   useEffect(() => {
     const arrErrors = Object.values(errors);
