@@ -20,12 +20,7 @@ const PostFeatureItemStyles = styled.div`
       position: absolute;
       inset: 0;
       border-radius: 16px;
-      background-color: linear-gradient(
-        179.77deg,
-        #6b6b6b 36.45%,
-        rgba(163, 163, 163, 0.622265) 63.98%,
-        rgba(255, 255, 255, 0) 99.8%
-      );
+      background-color: rgba(0, 0, 0, 0.75);
       mix-blend-mode: multiply;
       opacity: 0.6;
     }
@@ -70,7 +65,8 @@ const PostFeatureItem = () => {
           <PostMeta></PostMeta>
         </div>
         <PostTitle size="big">
-          Work Space cho người mới đi làm hiệu quả đến bất ngờ mà bạn không tưởng tượng được đâu
+          Work Space cho người mới đi làm hiệu quả đến bất ngờ mà bạn không
+          tưởng tượng được đâu
         </PostTitle>
       </div>
     </PostFeatureItemStyles>

@@ -10,7 +10,7 @@ const menuLink = [
 ];
 
 const HeaderStyles = styled.header`
-  padding: 40px 0;
+  padding: 20px 0;
   .header-main {
     display: flex;
     align-items: center;
@@ -31,7 +31,7 @@ const HeaderStyles = styled.header`
 
   .search {
     margin-left: auto;
-    padding: 10px;
+    padding: 15px 25px;
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 100%;
@@ -43,9 +43,10 @@ const HeaderStyles = styled.header`
     margin-right: 20px;
   }
 
-  search-input {
+  .search-input {
     flex: 1;
     padding-right: 45px;
+    font-weight: 500;
   }
 
   .search-icon {
@@ -54,16 +55,27 @@ const HeaderStyles = styled.header`
     transform: translateY(-50%);
     right: 25px;
   }
+
+  @media screen and (max-width: 1023.98px) {
+    .logo {
+      max-width: 30px;
+    }
+    .menu,
+    .search,
+    .header-button,
+    .header-auth {
+      display: none;
+    }
+  }
 `;
 
 function getLastName(name) {
-  if (!name) return "";
+  if (!name) return "User";
   const length = name.split(" ").length;
   return name.split(" ")[length - 1];
 }
 const Header = () => {
   const { userInfo } = useAuth();
-  console.log("file: Header.jsx:63 ~ userInfo:", userInfo);
   return (
     <HeaderStyles>
       <div className="container">

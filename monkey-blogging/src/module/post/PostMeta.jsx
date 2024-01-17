@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 
 const PostMetaStyles = styled.div`
@@ -16,12 +17,19 @@ const PostMetaStyles = styled.div`
       border-radius: 100rem;
     }
   }
+  @media screen and (max-width: 1023.98px) {
+    font-size: 10px;
+    gap: 6px;
+  }
 `;
 
-// eslint-disable-next-line react/prop-types
-const PostMeta = ({ date = "Mar 23", authorName = "Andiez Le", className = "" }) => {
+const PostMeta = ({
+  date = "Mar 23",
+  authorName = "Andiez Le",
+  className = "",
+}) => {
   return (
-    <PostMetaStyles className={className}>
+    <PostMetaStyles className={`post-meta ${className}`}>
       <span className="post-time">{date}</span>
       <span className="post-dot"></span>
       <span className="post-author">{authorName}</span>

@@ -17,10 +17,18 @@ const PostItemStyles = styled.div`
       border-radius: 16px;
     }
     &-category {
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
     &-title {
-      margin-bottom: 12px;
+      margin-bottom: 20px;
+    }
+  }
+  @media screen and (max-width: 1023.98px) {
+    .post {
+      &-image {
+        aspect-ratio: 16/9;
+        height: auto;
+      }
     }
   }
 `;
@@ -35,7 +43,9 @@ const PostItem = () => {
       />
 
       <PostCategory>Kiến thức</PostCategory>
-      <PostTitle>Hướng dẫn setup phòng cực chill dành cho người mới toàn tập</PostTitle>
+      <PostTitle>
+        Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
+      </PostTitle>
       <PostMeta></PostMeta>
     </PostItemStyles>
   );

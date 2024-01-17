@@ -8,7 +8,7 @@ const PostNewestLargeStyles = styled.div`
   .post {
     &-image {
       display: block;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       height: 433px;
       border-radius: 16px;
     }
@@ -16,7 +16,12 @@ const PostNewestLargeStyles = styled.div`
       margin-bottom: 10px;
     }
     &-title {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    @media screen and (max-width: 1023.98px) {
+      &-image {
+        height: 250px;
+      }
     }
   }
 `;
@@ -29,7 +34,9 @@ const PostNewestLarge = () => {
         alt=""
       />
       <PostCategory>Kiến thức</PostCategory>
-      <PostTitle size="big">Hướng dẫn setup phòng cực chill dành cho người mới toàn tập</PostTitle>
+      <PostTitle size="big">
+        Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
+      </PostTitle>
       <PostMeta></PostMeta>
     </PostNewestLargeStyles>
   );

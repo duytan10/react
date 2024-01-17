@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import Heading from '../../components/layout/Heading';
-import PostNewestLarge from '../post/PostNewestLarge';
-import PostNewestItem from '../post/PostNewestItem';
-import PostItem from '../post/PostItem';
+import styled from "styled-components";
+import Heading from "../../components/layout/Heading";
+import PostNewestLarge from "../post/PostNewestLarge";
+import PostNewestItem from "../post/PostNewestItem";
+import PostItem from "../post/PostItem";
 
 const HomeNewestStyles = styled.div`
   .layout {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-gap: 40px;
-    margin-bottom: 64px;
+    margin-bottom: 40px;
     align-items: start;
   }
   .sidebar {
@@ -17,11 +17,20 @@ const HomeNewestStyles = styled.div`
     background-color: #f3edff;
     border-radius: 16px;
   }
+
+  @media screen and (max-width: 1023.98px) {
+    .layout {
+      grid-template-columns: 100%;
+    }
+    .sidebar {
+      padding: 14px 10px;
+    }
+  }
 `;
 
 const HomeNewest = () => {
   return (
-    <HomeNewestStyles className='home-block'>
+    <HomeNewestStyles className="home-block">
       <div className="container">
         <Heading>Mới nhất</Heading>
         <div className="layout">
