@@ -39,7 +39,6 @@ const HeaderStyles = styled.header`
     display: flex;
     align-items: center;
     position: relative;
-    font-weight: 500;
     margin-right: 20px;
   }
 
@@ -74,6 +73,7 @@ function getLastName(name) {
   const length = name.split(" ").length;
   return name.split(" ")[length - 1];
 }
+
 const Header = () => {
   const { userInfo } = useAuth();
   return (
@@ -130,8 +130,8 @@ const Header = () => {
             </span>
           </div>
           {!userInfo ? (
-            <Button className="header-button" height="46px" to="/sign-up">
-              Sign Up
+            <Button className="header-button" height="46px" to="/sign-in">
+              Sign In
             </Button>
           ) : (
             <div className="header-auth">
