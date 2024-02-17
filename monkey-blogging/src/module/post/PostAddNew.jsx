@@ -8,7 +8,13 @@ import { Radio } from "../../components/checkbox";
 import { Dropdown } from "../../components/dropdown";
 import slugify from "slugify";
 import { postStatus } from "../../utils/constants";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import ImageUpload from "../../components/image/ImageUpload";
 import { useState } from "react";
 
@@ -17,7 +23,7 @@ const storage = getStorage();
 const PostAddNewStyles = styled.div``;
 
 const PostAddNew = () => {
-  const { control, watch, handleSubmit, setValue } = useForm({
+  const { control, watch, handleSubmit, setValue, getValues } = useForm({
     mode: "onChange",
     defaultValues: { title: "", slug: "", status: postStatus.PENDING, category: "" },
   });
@@ -28,14 +34,19 @@ const PostAddNew = () => {
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title);
     cloneValues.status = Number(values.status);
-    handleUploadImage(cloneValues.image);
-    console.log("🚀 ~ addPostHandler ~ values:", cloneValues);
+  };
+
+  const onSelectImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setValue("image_name", file.name);
+    handleUploadImage(file);
   };
 
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState("");
   const handleUploadImage = (file) => {
-    const storageRef = ref(storage, "images/" + file.name);
+    const storageRef = ref(storage, "images/" + getValues("image_name"));
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -66,16 +77,21 @@ const PostAddNew = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImage(downloadURL);
-          console.log("File available at", downloadURL);
+          setProgress(0);
         });
       }
     );
   };
 
-  const onSelectImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setValue("image", file);
+  const handleDeleteImage = () => {
+    const desertRef = ref(storage, "images/" + getValues("image_name"));
+    deleteObject(desertRef)
+      .then(() => {
+        setImage("");
+      })
+      .catch((error) => {
+        console.log("🚀 ~ handleDeleteImage ~ error:", error);
+      });
   };
 
   return (
@@ -100,6 +116,7 @@ const PostAddNew = () => {
               onChange={onSelectImage}
               progress={progress}
               image={image}
+              handleDeleteImage={handleDeleteImage}
             ></ImageUpload>
           </Field>
           <Field>
