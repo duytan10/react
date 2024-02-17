@@ -8,17 +8,8 @@ import { Radio } from "../../components/checkbox";
 import { Dropdown } from "../../components/dropdown";
 import slugify from "slugify";
 import { postStatus } from "../../utils/constants";
-import {
-  deleteObject,
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
 import ImageUpload from "../../components/image/ImageUpload";
-import { useState } from "react";
-
-const storage = getStorage();
+import useFirebaseImage from "../../hooks/useFirebaseImage";
 
 const PostAddNewStyles = styled.div``;
 
@@ -30,68 +21,16 @@ const PostAddNew = () => {
 
   const watchStatus = watch("status");
   // const watchCategory = watch("category");
+
+  const { progress, image, handleSelectImage, handleDeleteImage } = useFirebaseImage(
+    getValues,
+    setValue
+  );
+
   const addPostHandler = async (values) => {
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title);
     cloneValues.status = Number(values.status);
-  };
-
-  const onSelectImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setValue("image_name", file.name);
-    handleUploadImage(file);
-  };
-
-  const [progress, setProgress] = useState(0);
-  const [image, setImage] = useState("");
-  const handleUploadImage = (file) => {
-    const storageRef = ref(storage, "images/" + getValues("image_name"));
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progressPercent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progressPercent);
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
-      },
-      (error) => {
-        console.log("Error", error);
-        switch (error.code) {
-          case "storage/unauthorized":
-            break;
-          case "storage/canceled":
-            break;
-          case "storage/unknown":
-            break;
-        }
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImage(downloadURL);
-          setProgress(0);
-        });
-      }
-    );
-  };
-
-  const handleDeleteImage = () => {
-    const desertRef = ref(storage, "images/" + getValues("image_name"));
-    deleteObject(desertRef)
-      .then(() => {
-        setImage("");
-      })
-      .catch((error) => {
-        console.log("🚀 ~ handleDeleteImage ~ error:", error);
-      });
   };
 
   return (
@@ -113,7 +52,7 @@ const PostAddNew = () => {
             <Label>Image</Label>
             <ImageUpload
               name="image"
-              onChange={onSelectImage}
+              onChange={handleSelectImage}
               progress={progress}
               image={image}
               handleDeleteImage={handleDeleteImage}
@@ -125,7 +64,7 @@ const PostAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === postStatus.APPROVED}
+                checked={Number(watchStatus) === postStatus.APPROVED}
                 value={postStatus.APPROVED}
               >
                 Approved
@@ -133,7 +72,7 @@ const PostAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === postStatus.PENDING}
+                checked={Number(watchStatus) === postStatus.PENDING}
                 value={postStatus.PENDING}
               >
                 Pending
@@ -141,19 +80,19 @@ const PostAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === postStatus.REJECTED}
+                checked={Number(watchStatus) === postStatus.REJECTED}
                 value={postStatus.REJECTED}
               >
                 Reject
               </Radio>
             </div>
           </Field>
+        </div>
+        <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label>Author</Label>
             <Input name="author" control={control} placeholder="Find the author"></Input>
           </Field>
-        </div>
-        <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label>Category</Label>
             <Dropdown>
