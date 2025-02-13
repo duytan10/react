@@ -1,1 +1,4 @@
-export { default as Field } from "./Field";
+import Field from './Field';
+import FieldCheckBoxes from './FieldCheckBoxes';
+
+export { Field, FieldCheckBoxes };

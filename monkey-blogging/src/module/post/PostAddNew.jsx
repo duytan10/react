@@ -28,7 +28,6 @@ const PostAddNewStyles = styled.div``;
 
 const PostAddNew = () => {
   const { userInfo } = useAuth();
-  console.log('userInfo:', userInfo);
   const { control, watch, handleSubmit, setValue, getValues, reset } = useForm({
     mode: 'onChange',
     defaultValues: {
